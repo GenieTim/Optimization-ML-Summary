@@ -1,0 +1,25 @@
+\section*{Introduction into Nonlinear Optimization}
+
+\subsection*{Unconstrained Optimization}
+
+\textbf{Problem definition}
+Given a set $X\subset R^n$ and a function $f: X \rightarrow R$, determine a $x^* \in X$ with the properties $f(x^*) \leq f(x)$ $\forall x \in X$ for a global minimum and $\forall x$ near $x^*$ for a local minimum, resp.
+
+Necessary and sufficient optimality conditions for a local min.: $\nabla f (x^*) = 0 \Leftrightarrow \norm{\nabla f(x^*)} = 0$, $\nabla^2 f(x*3)$ is positive definite.
+
+\textbf{Rate iterative methods}
+Asymptotic rate of convergence: $\lim_{k\to\infty} (\sfrac{\norm{x^{k+1} - x^*}}{\norm{x^k - x^*}^p}) = \epsilon$, where p is the asymptitic order and $\epsilon$ the asymptotic error.
+Convergence tests: $\norm{x^{k+1}-x^k}<\epsilon$ and/or $\norm{\nabla f(x^{k+1})}<\epsilon$ for sufficiently large $k$ and small $\epsilon$.
+
+\textbf{Steepest Descent}
+Linear convergence. $x^{k+1} = x^{k} + d^k \min_{t \in R}(f(x^k + t d^k))$ with $d^k = -\nabla f(x^k)$.
+
+\textbf{Conjugate Gradient (CG, PCG) methods}
+No matrix-matrix mult, only vectors. Solve large systems of eqs. Works only for symmetric positive definite matrices.
+$d^{k+1} = -\nabla f(x^{k+1}) + \beta^k d^k$. Search direction better than steepest descent, as there, the angle between search directions can be very small (close Zic-Zac). 
+$\beta^k$ either: Plak Ribière: $\beta^k= \sfrac{\nabla f (x^k)^T (\nabla f(x^k) - \nabla f(x^{k-1}))}{\norm{\nabla f (x^k-1)}^2}$ or Fletcher Reeves: $\beta^k= \sfrac{\norm{\nabla f(x^k)}^2}{\norm{\nabla f (x^k-1)}^2}$.
+Preconditioning (PCG): Cholesky. %\texttt{pcg, ichol, mchol}.
+
+\textbf{Newton-Method}
+Avoids the inversion of the Hessian-matrix by quadratic approximation of the function $f$. The linear system of equations $\nabla^2 f(x^k) d^k = -\nabla f(x^k)$ is solved instead, to get $x^{k+1}=x^k + d^k$.
+
