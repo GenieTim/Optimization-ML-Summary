@@ -15,6 +15,11 @@
 \usepackage{bbold}
 \usepackage{wrapfig}
 \usepackage{amsmath} % to get \tfrac
+% and to redefine some commands:
+\let\oldforall\forall
+\let\forall\undefined
+\DeclareMathOperator{\forall}{\oldforall}
+
 \usepackage{xfrac} % to get \sfrac
 \usepackage{dsfont} % For mathbb{1}
 
@@ -128,6 +133,7 @@ listing engine=minted,minted language=#1}
 \let\bar\overline
 
 \definecolor{myblue}{cmyk}{1,.72,0,.38}
+\definecolor{mygreen}{cmyk}{76, 0, 76, 0.2}
 
 \def\firstcircle{(0,0) circle (1.5cm)}
 \def\secondcircle{(0:2cm) circle (1.5cm)}
@@ -156,6 +162,10 @@ listing engine=minted,minted language=#1}
                                 {.2ex}%x
                                 {\color{myblue}\sffamily\small\bfseries}}
 \renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
+                                {.2ex}%
+                                {.2ex}%x
+                                {\color{mygreen}\sffamily\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{1}{0mm}%
                                 {.2ex}%
                                 {.2ex}%x
                                 {\sffamily\bfseries}}
@@ -295,15 +305,15 @@ listing engine=minted,minted language=#1}
 \begin{document}
 \begin{multicols*}{4}
 \scriptsize
-\input{math_basics}
-\input{nonlinear_optimization}
-\input{design_of_experiments}
-\input{nonlinear_fea}
-\input{meta_modeling_techniques}
-\input{shape_topology_optimization}
-\input{robustness_sensitivity_analysis}
-\input{ml_fundamentals}
-\input{generalized_ml_methods}
-\input{supervised_unsupervised_learning}
+\input{math_basics.tex}
+\input{nonlinear_optimization.tex}
+\input{design_of_experiments.tex}
+\input{nonlinear_fea.tex}
+\input{meta_modeling_techniques.tex}
+\input{shape_topology_optimization.tex}
+\input{robustness_sensitivity_analysis.tex}
+\input{ml_fundamentals.tex}
+\input{generalized_ml_methods.tex}
+\input{supervised_unsupervised_learning.tex}
 \end{multicols*}
 \end{document}
