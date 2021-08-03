@@ -1,1 +1,6 @@
 \section*{Design of Experiments (DoE)}
+Together with metamodels: transform real into virtual experiments.
+A method for determining the points in the design space that can be used to construct a metamodel or used for general analysis of the problem, e.g., direct optimization, sensitivity analysis, to create the start
+generation for the genetic algorithm etc.
+\textbf{Systematic Sampling}: One-factor at a time (variation of one factor, keeping the other constant $\rightarrow$ repeatable, interactions between factors not investigated), (full) factorial designs (study effect of combinations: $l^k$, with $l$: levels, $k$: factors. Used for small $l$ \& $k$), D-Optimal (optimizing the distance between the support points in an arbitrary shaped design space: find $\max{\det{X^T X}}$, using $X^T X a = X^T y$, $a$: vector of regression coefficients).
+\textbf{Stochastic Sampling}: Monte Carlo (random sampling), Latin Hypercube (Advanced Monte Carlo: Latin Hypercube sampling provides a $P$ by $n$ matrix $S_{ij}$ that randomly samples the entire design space. Where $P$ is the number of points and $n$ is the number of design variables. To generate a good space filling design, the values of each column of the $S$ matrix are permuted to optimize some criteria. No consideration of parameter dependency.).

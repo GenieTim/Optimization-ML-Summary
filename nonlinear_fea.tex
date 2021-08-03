@@ -1,1 +1,69 @@
 \section*{Introduction into Nonlinear Finite Element Analysis}
+
+From continuum: $\div{\sigma} + b = 0, u_s = \bar{u} \text{ on } \partial\Omega_u, \sigma \cdot n = t = \bar{t} \text{ on } \partial\Omega_t$
+to a discrete system: $K\hat{u}=f$ (linear FEM) and $K\Delta \hat{u} = \Delta f$ (nonlinear).
+isoparametric concept: 
+The geometry as well as the displacements field is approximated with the same shape functions.
+$\hat{u}$: nodal displacements. $N$: matrix of interpolation functions. $B$: strain displacement matrix.
+Mapping from isoparametric space to real space by Jacobi $J^{-1}$.
+
+\textbf{4-Node bilinear element}
+has shape/interpolation functions, $N_1 = \frac{1}{4}(1-r)(1-s), N_2 = \frac{1}{4}(1+r)(1-s), N_3 = \frac{1}{4}(1+r)(1+s), N_4 = \frac{1}{4}(1-r)(1+s)$, interpolation matrix $N=
+\begin{bmatrix}
+N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4 & 0 \\
+0 & N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4
+\end{bmatrix}$, nodal displacements $\hat{u} = \begin{bmatrix}
+\hat{u}_x^{(1)} & \hat{u}_y^{(1)} & \hat{u}_x^{(2)} & \hat{u}_y^{(2)} &
+\hat{u}_x^{(3)} & \hat{u}_y^{(3)} & \hat{u}_x^{(4)} & \hat{u}_y^{(4)}
+\end{bmatrix}$ and strain interpolation matrix $B_i = \begin{bmatrix}
+\frac{\partial N_i}{\partial x} & 0 \\
+0 & \frac{\partial N_i}{\partial y} \\
+\frac{\partial N_i}{\partial y} & \frac{\partial N_i}{\partial x} \\
+\end{bmatrix}$, $B= \begin{bmatrix}
+B_1 & B_2 & B_3 & B_4
+\end{bmatrix}$, $J^{-1}\begin{bmatrix}
+\frac{\partial N_i}{\partial r} \\
+\frac{\partial N_i}{\partial s}
+\end{bmatrix} =\begin{bmatrix}
+\frac{\partial N_i}{\partial x} \\
+\frac{\partial N_i}{\partial y}
+\end{bmatrix}$.
+
+Element force vectors are given by
+$f_e^{int} = \int_{\Omega^e} B^T \sigma dV$, $f_e^{ext} = \int_{\Omega^e} N^T b  dV + \int_{\partial\Omega^e} N^T t  da$.
+Using numerical integration, that is $f_e^{int} = \sum_{i=1}^{n_{\text{gaussp}}} w_i B_i ^T \sigma_i \det{J_i}$ and $f_e^{ext} = \sum_{i=1}^{n_{\text{gaussp}}} w_i N_i ^T b_i \det{J_i} + \sum_{i=1}^{n_{\text{gaussp}}} w_i^b N_i ^T t_i \sigma_i \det{J_i^b}$, respectively.
+
+Assemble globally: $f^{int} = \bigcup_{e=1}^{n_{\text{elem}}} f_e^{int}$,  $f^{ext} = \bigcup_{e=1}^{n_{\text{elem}}} f_e^{ext}$ ($\bigcup$: finite element assembly operator).
+
+For linear elasticity, we have the elasticity matrix $D^e$ related as $\sigma= D^e \epsilon = D^e B \hat{u}$, and the stiffness matrix $K ^e = \int_{\Omega^e} B^T D^e B dV$.
+
+\textbf{Nonlinear FEM}
+Material tensor $D$ is not constant. Iteration of Newton scheme requires solving $K \delta \hat{u}^{(k)} = r^{(k-1)}$ for $\delta \hat{u}^{(k)}$.
+$r^{(k-1)}$ are the residual forces.
+Update the global displacements as $\hat{u}_{n+1}^{(k)} = \hat{u}_{n+1}^{(k-1)} + \delta \hat{u}^{(k)}$.
+
+\subsection*{Constrained Optimization in FEM}
+\textbf{Contact Modelling (Imposition of Constraints)}
+\textit{Penalty Method:}
+The potential energy of a discretized system is given by $\Pi = \frac{1}{2} U^T K U - U^T R$ with $U\in\doubleR^n$: nodal displacements, $K\in\doubleR^{n\times n}$: global stiffness matrix and $R\in\doubleR^n$: external forces on nodes.
+First term: elastic, second: potential (of external forces) energy.
+Boundary conditions: $ZU=V$, $Z\in\doubleR^{m \times n}, V\in \doubleR^m$, $m$: Nr. of boundary conditions. 
+Add the violation as a penalty term:
+$\Pi = \frac{1}{2} U^T K U - U^T R + \frac{\alpha}{2}(ZU-V)^T(ZU-V)$.
+Choose $\alpha \gg K_{?,?}$.
+To minimize: $\partial\Pi = \partial U^T (KU -R+\alpha Z^T (ZU-V))=0$.
+Has to be fulfilled for every $\partial U^T \Rightarrow U = (K+\alpha Z^T Z)^{-1} (R+\alpha Z^T V)$
+
+\textit{Lagrange Multiplier Method:}
+$\Pi = \frac{1}{2} U^T K U - U^T R + \lambda^T (ZU-V)$, and with $\partial \Pi = 0$, we get $\begin{bmatrix}
+K & Z^T \\
+Z & 0
+\end{bmatrix} \begin{bmatrix}
+U \\
+\lambda
+\end{bmatrix} = \begin{bmatrix}
+R \\
+V
+\end{bmatrix}$.
+Where $\lambda$ is a vector of $m$ Lagrange multipliers.
+Disadvantages: Bigger bandwidth $\rightarrow$ loss of $K$ typical band structure. The system matrix is symmetric but not positive definite.

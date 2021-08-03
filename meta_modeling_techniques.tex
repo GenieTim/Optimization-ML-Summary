@@ -1,2 +1,40 @@
 \section*{Optimization based on Meta Modeling Techniques}
+Metamodels tend to reduce the computational time significantly.
+
+\textbf{Response Surface Method (RSM)}
+Fit a surface to discrete points. Use the constructed function (meta-model) to solve the optimization (sub)problem.
+Advantages: Tendency to approximate the global minimum. Avoids local outliers \& oscillations of the response thanks to smoothing. 
+Optimization of RS leads to simple computations. 
+Disadvantages: Efficient computations are restricted to a small number of variables (ca. 15).
+
+\textbf{Error analysis}
+Coefficient of determination:
+$R^2 = \frac{\sum_{i=1}^{n_p} (\hat{y}_i-\bar{y})^2}{\sum_{i=1}^{n_p} (y_i-\bar{y})^2}$
+with $n_p$: number of exp. points, $y_i$: actual response, $\hat{y}_i$: predicted response, $\bar{y}$: mean values of responses.
+$0\leq R^2 \leq 1$. $R^2=1$ indicates perfect fit.
+Small $R^2$: the region of interest is too large or too small.
+Overfitting possible. 
+$R^2$ represents the ability of the response surface to predict the variation of the true response.
+
+\textbf{Successive Response Surface Method (SRSM)}
+Adapt the subdesign space.
+
+\textbf{Kriging}
+High quality approximation, very flexible models. 
+
+Meta-model $y=f(x)+Z(x)$, with $y(x)$: unknown interest, $f(x)$: known polynomial, regression coefficient $a$, $Z(x)$: stochastic component with mean zero and $\cov{[Z(x^i), Z(x^j)]} = \sigma^2 R[R(x^i, x^j)]$, with $R$: $n\times n$ correlation matrix (symmetric, unit diagonal) with $R(x^i, x^j)$ correlation between $x^i, x^j$.
+E.g. exponential: $R=\prod_{k=1}^{m}\exp{-\theta_k \abs{d_k}}$ or Gaussian: $R=\prod_{k=1}^{m}\exp{-\theta_k \abs{d_k^2}}$ with $m$: number of variables, $d_k=x_k^i - x_k ^j$.
+$a, \sigma, \theta$ are unknown and depend on each other. 
+Iterative procedure required!
+An appropriate combination of the regression model and the stochasitc model as well as the number and the distribution of the sampling points is of crucial importance.
+In general, the computational time of the fitting process is larger than using RSM.
+
+\textbf{Validation (Cross-Validation) of the Meta-model}
+1. Remove sample $x_i$ from the data set.
+2. Evaluate the model for the remaining $n_p - 1$ samples.
+3. Evaluate the model on the removed sample $x_i \rightarrow \hat{y}_{-1}$.
+4. Repeat the points 1. – 3. for each point of the data set.
+5. Compare the computed values with the data points of the real supporting points.
+$\epsilon_{RMS}=\sqrt{\frac{1}{n_p} \sum_{i=1}^{n_p} (y_i-\hat{y}_{-i})^2}$.
+
 

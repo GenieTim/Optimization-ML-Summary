@@ -283,6 +283,10 @@ listing engine=minted,minted language=#1}
     \set@mult@vsize \global
   \fi}
   
+% https://tex.stackexchange.com/questions/341717/smaller-font-for-subscript-within-subscript-in-math-mode
+%\usepackage{fix-cm}
+%\DeclareMathSizes{10}{7}{4}{2}
+
 % https://tex.stackexchange.com/questions/43008/absolute-value-symbols
 \usepackage{mathtools}
 
@@ -302,13 +306,17 @@ listing engine=minted,minted language=#1}
 \makeatother
 \setlength{\parindent}{0pt}
 
+% define personal alias
+\newcommand*{\doubleR}{\ensuremath{\mathbb{R}}}
+\newcommand{\cov}{\ensuremath{\mathrm{Cov}}}
+
 \begin{document}
 \begin{multicols*}{4}
 \scriptsize
 \input{math_basics.tex}
 \input{nonlinear_optimization.tex}
-\input{design_of_experiments.tex}
 \input{nonlinear_fea.tex}
+\input{design_of_experiments.tex}
 \input{meta_modeling_techniques.tex}
 \input{shape_topology_optimization.tex}
 \input{robustness_sensitivity_analysis.tex}
