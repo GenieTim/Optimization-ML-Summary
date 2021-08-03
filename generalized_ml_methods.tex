@@ -1,1 +1,47 @@
 \section*{Generalized methods for regression and classification, Neural Networks, Support Vector Machines}
+
+\textbf{Support Vector Machines} (SVM) 
+can be used for classification or continuous values for regression. 
+The class of an unseen data point is determined by comparing it with the support vectors in the training set by using the chosen kernel.
+SVMs rely on solving a convex optimization problem.
+
+\textit{Kernels}
+Define a hyperplane in a higher dimensional feature space where the data is linearly separable. 
+The mapping to the higher dimensional space is defined by $\phi(x)$. 
+Kernel functions calculate the similarity of the two vectors without having to calculate the mapping function $k(x,x')=\phi(x^T)\phi(x')$.
+Common kernel functions:
+Linear: $k(x,x') = x^T x'$, polynomial: $k(x,x')=(x^T x' + 1)^p, p\in\doubleN$, Gaussian: $k(x,x')=\exp{-\frac{\norm{x-x'}^2}{2\sigma^2}}$, radial basis function: $k(x,x')=\exp{-\gamma\norm{x-x'}^2}$ (hyperparameter $\gamma$ determines how much influence data points with lower similarity have on the decision boundary).
+
+\textbf{Support Vector Classification} (SVC)
+
+\textit{Hard Margin SVC}: In two-class classification, the goal is to find a decision surface $y(x)=w^T\phi(x)+b$, with $w$: learning parameter vector, $\phi(x)$: feature transformation, $b$: bias.
+The training set consists of input samples $x_1,...x_N$ with corresponding target values $t_1,...,t_N$ where $t_i\in {-1,1}$.
+Under the assumption that the data set is linearly separable in the transformed feature space $\phi(x)$, at least one solution $w,b$ exists such that $t_n y(x_n)>0$ for all data points.
+
+SVMs find the single decision boundary $y(x)$ that maximizes the smallest distance between any sample to itself (also called the margin).
+
+SVC is helpful, as the class of an unseen data point is determined by comparing it to the support vectors in the training set by using the chosen kernel.
+The kernel trick allows for the insertion of an arbitrary kernel that corresponds to an indefinitely dimensional feature transformation (e.g., the Gaussian kernel), but without calculating the feature transformation.
+
+A hard-margin SVC can lack from overfitting to the training data. In general, a perfect classification!
+However, the resulting decision surface will give a poor generalization.
+
+\textit{Soft Margin SVC}
+A soft-margin SVC counteracts overfitting.
+The approach of the hard-margin SVC is modified such that data points are allowed on the wrong side of the margin.
+Slack variables $\chi_n$ are defined for every training data point: $\chi_n = \abs{t_n-y(x_n)}$.
+A penalty is introduced that increases linearly with the distance from the boundary when a data point is misclassified.
+With $C$ controlling trade-off between the slack variable penalty and the decision boundary: $\min(\frac{1}{2}\norm{w}^2)+C\sum_{n=1}^{N} \chi_n$, s.t. $t_n y(x_n) \geq 1 - \chi_n, n = 1,..., N$.
+
+\textbf{Tipps \& Tricks}
+Use FE results as training data for SVM classification.
+Sample data points using Sliced Latin Hypercube Sampling. Filter out infeasible configurations.
+Assess the performance of the SVM using Cross-Validation.
+
+Hyperparameter optimization: Choose manually (difficult \& time consuming) or use an optimization process, e.g.:
+\textit{SVM Optimization Equation with \textcolor{purple}{RBF Kernel}}: $\max_w (\Tilde{L}(w)) = \sum_{n=1}^N \lambda_n - \frac{1}{2} \sum_{n=1}^N \sum_{m=1}^N \lambda_n \lambda_m t_n t_m \textcolor{purple}{\exp{(-\gamma\norm{x_n-x_m}^2)}}$, with $\gamma$: kernel scale and $C$: box constraint, s.t. $0\leq \lambda_n \leq C, \sum_{n=1}^N \lambda_n t_n = 0$.
+
+\textbf{K-Fold cross validation} 
+separates the training data multiple times during the loss calculation to avoid introducing bias into the loss prediction.
+There exist several classification loss equations.
+

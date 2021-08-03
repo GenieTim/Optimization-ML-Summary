@@ -306,8 +306,13 @@ listing engine=minted,minted language=#1}
 \makeatother
 \setlength{\parindent}{0pt}
 
+\usepackage{caption}
+\DeclareCaptionFont{xxviii}{\fontsize{6}{6}\selectfont}
+\captionsetup{font=xxviii}
+
 % define personal alias
 \newcommand*{\doubleR}{\ensuremath{\mathbb{R}}}
+\newcommand*{\doubleN}{\ensuremath{\mathbb{N}}}
 \newcommand{\cov}{\ensuremath{\mathrm{Cov}}}
 
 \begin{document}

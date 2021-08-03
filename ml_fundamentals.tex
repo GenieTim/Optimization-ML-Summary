@@ -33,17 +33,17 @@ Another way is to look at the learning curves: these are plots of the model’s 
 
 \textbf{Feature Scaling}
 One of the most important transformations you need to apply to your data is feature scaling. With a few exceptions, Machine Learning algorithms don’t perform well when the input numerical attributes have very different scales.
-There are two common ways to get all attributes to have the same scale: min-max (normalization, values are shifted and rescaled so that they end up ranging from 0 to 1 by subtracting the min value and dividing by the max minus the min.) scaling and standardization (First it subtracts the mean value (so standardized values always have a zero mean), and then it divides by the standard deviation so that the resulting distribution has unit variance.
+There are two common ways to get all attributes to have the same scale: min-max (normalization, values are shifted and rescaled so that they end up ranging from 0 to 1 by subtracting the min value and dividing by the max minus the min.) scaling and standardization (First, it subtracts the mean value (so standardized values always have a zero mean), and then it divides by the standard deviation so that the resulting distribution has unit variance.
 Unlike min-max scaling, standardization does not bound values to a specific range, which may be a problem for some algorithms
 Standardization is much less affected by outliers.).
 
 \textbf{Linear Regression}
-A linear model makes prediction by simply computing a weighted sum of the input featers, plus a constant called the bias term.
+A linear model makes the prediction by simply computing a weighted sum of the input features, plus a constant called the bias term.
 $\hat{y}=w^T x$.
 Cost function: mean square error $MSE=\frac{1}{m} \sum_{i=1}^{m} (w^T x^i - y^i)^2$.
 
 \textbf{Ridge- and Lasso Regression}
-A good way to reduce overfitting is to regularize the model (i.e. to constrain it): The fewer degrees of freedom it has, the harder it will be for it to overfit the data.
+A good way to reduce overfitting is to regularize the model (i.e., to constrain it): The fewer degrees of freedom it has, the harder it will be for it to overfit the data.
 The hyperparameter $\alpha$ controls how much you want to regularize the model.
 Ridge Regression cost function: $J(w) = \frac{1}{m} \sum_{i=1}^{m} (w^T x^i - y^i)^2 + \frac{\alpha}{2} \sum_{i=1}^{m} w_i^2$.
 Lasso Regression cost function: $J(w) = \frac{1}{m} \sum_{i=1}^{m} (w^T x^i - y^i)^2 + \alpha \sum_{i=1}^{m} \abs{w_i}$

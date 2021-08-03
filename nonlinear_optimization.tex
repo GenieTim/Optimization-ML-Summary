@@ -77,16 +77,20 @@ In constrained gradient based optimization problems, quadratic subproblems have 
 \textbf{Genetic-Algorithms}
 Simple, can find global minimum, require lots of function evaluations (but those only). A new generation of individuals is produced using crossover, mutation, ..., operations.
 
+%\begin{wrapfigure}{R}{0.5\linewidth}
+\begin{figure}[H]
+    \vspace{-0.5cm}
+    \centering
+    \includegraphics[width=0.4\linewidth]{img/pareto.jpg}
+    \caption{\label{fig:pareto}Pareto front and set}
+\end{figure}
+\vspace{-0.5cm}
+%\end{wrapfigure}
+
 \subsection*{Multiobjective Optimization}
 Tradeoff surface (Pareto front): $S$ is a set of values of pair ($f_1$, $f_2$) when x respects the constraints, $P$ is the tradeoff surface.
 \textbf{Pareto optimal}: A design variable $x^* \in S$ and the corresponding $f(x^*)$ are pareto optimal if there does not exist another design variable $x\in S$ such that $f_i (x) \leq f_i (x^*) \forall i = 1 ... k$ and $f_j (x) < f_j (x^*)$ for at least one objective function $f_j$.
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.2\textwidth]{img/pareto.jpg}
-    \caption{Pareto front and set}
-    \label{fig:pareto}
-\end{figure}
 
 \subsubsection*{Solution methods}
 \textbf{Scalar methods}: 
