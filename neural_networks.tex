@@ -1,0 +1,273 @@
+\section*{Neural Networks}
+\textbf{Deep Feedforward Network = Feedforward Neural Network = Multilayer Perceptrons} are algorithms that can be represented as a directed graph (=network) connecting several perceptrons, ie building blocks originally inspired by neurons (=neural).
+\textbf{Deep learning} is a branch of machine learning that focuses on neural network algorithms.
+These algorithms have been shown to outperform other alternatives on a number of challenging tasks, including machine vision, speech recognition, machine translation, etc. As a result, they are now extensively used in the industry.
+Neural networks provide the following \textit{advantages and disadvantages}: 1. They scale well to large amounts of data.
+2. They can learn patterns in the data.
+3. Evaluating the cost function gradient is straightforward and fast.
+4. The cost function is nonconvex – optimizing them can be difficult.
+
+Split the prediction function $\hat{y}=f_{NN} (x,\theta)$ with many parameters $\theta$ to use the minibatch variant of stochastic gradient descent to take more optimization steps faster.
+Choose cost-function $\scriptL(y,\hat{y})$ to measure closeness of $\hat{y}$ to $y$. 
+Define the loss on a collection of examples is the mean of the loss on each example: $J((x^i, y^i)_{i=1,...,n})=\frac{1}{n} \sum_{i=1}^n \scriptL(y^i, \hat{y}^i)$.
+We can then use optimization/regularization strategies to find a set of parameters $\theta$ for which the neural network: Performs well on training examples: low training error as well as performs also well on unseen (test, real world) examples: low generalization error.
+
+\textbf{Perceptron}: A perceptron = a unit. Gets the input vector (input features, or activations of earlier units) $x_1,...,x_n$, parameters bias $b$ and weights $w_1,...,w_n$ and calculates the sum of weighted constributions, $z=\sum w_i x_i + b = w^T x + b$, directed into the unit's activation function $a = \phi (z) = \phi (w^T x + b)$.
+An artificial neural network is a computational (oriented) graph that connects different units, starting with the inputs and finishing with the outputs.
+All functions are applied component-wise.
+
+Common \textit{activation functions}: 
+Step function (heaviside): 
+$H_a (x) = \begin{cases} 
+1 & \mbox{if } x \geq a \\
+0 & \mbox{if } x < a
+\end{cases}$, $H_a' (x) = 0$.
+Logistic sigmoid: $f(x) = \frac{1}{1+exp(-x)}, f'(x) = f(x)(1-f(x))$.
+Hyperbolic tangent: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$, $\tanh'(x)=1-\tanh^2(x)$.
+Linear unit (no activation): $f(x)=x$, $f'(x)=1$.
+Rectified Linear Unit (ReLU): $f(x) = \begin{cases} 
+x & \mbox{if } x \geq 0 \\
+0 & \mbox{if } x < 0
+\end{cases}$, $f' (x) = \begin{cases} 
+1 & \mbox{if } x \geq 0 \\
+0 & \mbox{if } x < 0
+\end{cases}$.
+Leaky ReLU: $f(x) = \begin{cases} 
+x & \mbox{if } x \geq 0 \\
+\alpha x & \mbox{if } x < 0
+\end{cases}$, $f' (x) = \begin{cases} 
+1 & \mbox{if } x \geq 0 \\
+\alpha & \mbox{if } x < 0
+\end{cases}$.
+
+\textbf{Layers}: Layers are formed by units in parallel that have the same activation function and
+the same inputs (but different parameters), and can thus be treated at the same time.
+This allows for the vectorization of all operations:
+The activations of a layer’s units are collected in an activation vector $a^{(i)}$. 
+The biases of the layer’s units form a bias vector $b^{(i)}$.
+The weights of the layer’s units form a weight matrix $W^{(i)}$.
+The number of units in a layer is the width $n_i$ of the layer.
+If $a^{(i)}$ is the activation vector of layer $i$, then the activation $a^{(i+1)}$ of the next layer is deduced as follows:
+$z^{(i+1)} = W^{(i+1)}a^{(i)} + b^{(i+1)}, a^{(i+1)}=\phi (z^{(i+1)})$.
+
+The layers that are not observed (neither input nor output) are called \textit{hidden}.
+The number of hidden layers is the depth of the network – hence the term \textquote{deep learning}.
+
+Shallow neural networks consist of one (hidden) layer of units in parallel. 
+Both the input and output layers are directly connected.
+
+\textbf{Universal Approximator Property}: Any continuous function from a closed and bounded subset of $\doubleR^n$ to $\doubleR^m$ can be approximated arbitrarily well by a (large enough) neural network with a linear output layer, at least one hidden layer with any of the most common nonlinear activation
+functions.
+Why use deep neural networks? They perform better in practice, with fewer parameters and often generalize better.
+
+Regression with Neural Networks: Regression aims at estimating real-valued targets.
+It is usually performed using:
+1. A linear output layer (i.e., no activation function). Note: the hidden layers always have a nonlinear activation function (typically ReLU or tanh), otherwise the layers are transparent in the equations.
+2. The mean squared error (mse) as a loss function: $\scriptL(\hat{y}, y) = \frac{1}{m} \sum_{j=1}^m (\hat{y}_j - y_j)^2$.
+Mean absolute error (mae) or more complicated losses are preferred in certain cases, for example, to reduce the influence of outliers.
+The model is used the same way for training and for prediction.
+
+Binary classification with Neural Networks: Binary classification aims at estimating a target value in {0,1}.
+For prediction purposes:
+We use a step function with a threshold.
+However, this function has 0-valued derivatives almost everywhere – backpropagation will fail. The choice of threshold is important: it controls the tradeoff between precision and recall.
+During training:
+We use a sigmoid activation as a surrogate.
+The loss is defined as the categorical (or binary) cross-entropy:
+$\scriptL(\hat{y}, y) = -y \cdot \log{(\hat{y})} - (1-y)\cdot \log{(1-\hat{y})}$.
+
+To do forward propagation, we propagate information forward in the network,
+starting from the input vector. Therefore, the composition of functions (with additional inputs at each level) are calculated.
+
+For back propagation:
+To use SGD methods, we need to calculate the gradient of the loss with respect to the weights. We think of it as “the amount of error carried by $z$ and we note it $dz$ for short. If $\lambda$ is the loss: 
+$dW^{(i)} = \sfrac{\partial \lambda}{\partial W^{(i)}}$, $db^{(i)} = \sfrac{\partial \lambda}{\partial b^{(i)}}$, also $d\hat{y}, da^{(i)}. dz^{(i)}$.
+For this we use an algorithm called backpropagation of errors = back-propagation = backprop. Backpropagation is an efficient algorithm and the motor behind the training of deep learning models.
+Backpropagation relies on the chain rule for differentiation - if $\alpha$ and $\beta$ are two quantities of interest: 
+$d\alpha = \sfrac{\partial \lambda}{\partial \alpha} =  \sfrac{\partial \lambda}{\partial \beta} \cdot  \sfrac{\partial \beta}{\partial \alpha} = d\beta \cdot  \sfrac{\partial \beta}{\partial \alpha}$.
+We can apply this rule successively to the neural network, starting from the outside of the composition.
+
+To optimize neural networks: When networks and datasets are small:
+The techniques seen in the first part of the class can be used: Conjugate Gradient, BFGS, etc...
+Otherwise: Stochastic Gradient Descent (and variants).
+A good default choice: Adam with default parameters.
+Adam is a stochastic gradient descent variant that adapts its learning rate to each weight.
+
+Stochastic Gradient Descent Pros and cons:
+Smaller (mini) batch sizes mean faster iterations, but also smaller batch sizes mean less precise gradients.
+Adds randomness to the path – can help avoid local minima.
+
+Variants: Add momentum: time-average of the gradient estimate. RMSProp: normalize gradients by a time-average of the square of gradients. Adam: running average of both gradients ($\beta_1 = 0.9$) and their squared values ($\beta_2 = 0.999$).
+
+Weight initialization: breaking the symmetry
+Because the units of each layer have the same formulation and the same inputs, their role is symmetric.
+If we initialize with the same weights, the gradient will be symmetric as well – the units will all evolve the same way. Instead, we initialize the weights at random between 0 and 1 to break the symmetry.
+Several more complex initialization schemes exist.
+
+Randomness of training:
+Both the weight initialization and the algorithms are stochastic
+The final solution can vary a lot, even for the same procedure
+Several trainings might be needed to assess whether a training strategy works reliably.
+
+Regularization strategies for neural networks
+Regularization encompasses all strategies that aim not at reducing the generalization error (or test
+error) – as opposed to reducing the training error, which is the goal of optimization.
+Ultimately, having a low generalization error is our goal – so regularization is essential to us. 
+Numerous techniques are used to achieve that end.
+Getting a better dataset: a bigger, more representative, cleaner dataset. 
+The best method there is – if it’s possible.
+Data augmentation
+Adding copies of current examples, modified in a way that we know to be valid
+Example: apply a symmetry to data from a system that is invariant through that symmetry
+Adding noise to examples (input or outputs)
+
+Regularization strategies for neural networks
+Regularization terms in the loss:
+Adding a L1 or L2 term to the loss: $\lambda\sum \abs{w_i}$ or $\lambda \sum (w_i)^2$.
+Note: L2 regularization is also called “weight decay” due to the effect it has on weight update rules.
+Early stopping:
+Train once ; note when the test error starts going up ; train a new model with that number of epochs.
+Model averaging:
+Train several models. Average their response.
+Dropout:
+Dropout on a layer consists in “dropping” (setting to zero) the activation of a percentage of its units during training. 
+This forces the layer to become “resilient” and develop several pathways to transmit information to the next layer.
+The weights need to be rescaled (proportionally) accordingly after training.
+Weight sharing:
+Use the same weights in different parts of the network.
+Reduces the complexity of the network – less potential for overfitting.
+Can be seen as introducing knowledge about the structure of the data within the neural network. 
+Note: Backpropagation with weight sharing
+Perform backpropagation as if the weights were different
+Sum up the contributions afterwards
+Other way to look at it: project the gradient to the relevant subspace.
+
+Specialized neural networks: CNNs and RNNs Recall:
+a good way to reduce the number of parameters (hence regularize) is through parameter sharing.
+Parameter sharing can be used to convey information about the data:
+The data has a topology, i.e., each input has neighbors – each neighborhood is treated the same way The data has an order – the inputs can be ordered – each new step is treated the same way
+These modifications lead to new classes of specialized neural networks, that have become the gold standard to treat certain kinds of inputs:
+Convolutional Neural Networks: treatment of grid data (pictures, temperature distribution, microstructure, ...)
+Recurrent Neural Networks: treatment of time series/sequences (text, speech, deformation/temperature history, ...)
+
+Convolutional Neural Networks:
+A CNN is a neural network that contains at least one convolutional layer.
+CNNs were first invented 30 years ago and represent the main success story behind deep learning. Applications in your daily life: autonomous driving, deep-fakes, face recognition, fancy cartoonization filters...
+CNNs are applied to grid-organized data
+Examples: signal, image/video, DNA sequences, and spatial distributions in general. 
+Each point of the grid is only treated in interaction with its neighbors.
+The same treatment is applied (in parallel) to each “neighborhood” on the grid.
+Ways to think about it:
+CNNs exploit this grid topology to make simplification wrt dense layers through (massive) weight sharing. CNNs integrate translation invariance in their definition
+Order of magnitude of weight sharing.
+64x64x3 RGB image = 12288 features
+One dense layer 12288 → 12288 = 151’007’232 parameters
+One convolutional “channel” with 5x5 filter: 5x5x3=75 parameters
+
+CNN architectures can generally be divided into two parts:
+A feature extraction phase = several convolutional blocks
+A classification phase = feedforward neural networks (cf last lecture) after flattening the feature maps
+As we advance in the feature extraction phase, we generally have: Gradually smaller grids
+Increasingly numerous and complex features.
+Convolutional blocks consist in:
+1. Convolutional layer: detects features. 
+2. Activation layer: adds nonlinearity.
+3. Pooling layer: reduces the grid size.
+
+1D convolution: $(f*g)(x)=\int_{-\infty}^{\infty} f(\tau) g(x-\tau) d\tau = \int_{-\infty}^{\infty} f(x-\tau) g(\tau) d\tau = $.
+Notion of filter: take $g$ with finite support (i.e., only non-zero on [-a; a] with $a \in \doubleR_+^*$):
+$(f*g)(x)=\int_{-\infty}^{\infty} f(x-\tau) g(\tau) d\tau = \int_{-a}^{a} f(x-\tau) g(\tau) d\tau = $.
+Discretely, this is equivalent to the series: 
+$(f*g)(n)= \sum_{k=-\infty}^{\infty} f(k)g(n-k) =  \sum_{k=-\infty}^{\infty} f(n-k)g(k)$.
+Similarly, we can define discrete filters / kernels:
+We take $g$ with finite support (i.e., only non-zero on an interval $[-m,m]$ with $k=2m+1$ the kernel size. $(f*g)(n)= \sum_{k=-m}^{m} f(n-k)g(k)$.
+
+For convenience, we drop the minus sign in the indexing: $(f*g)(n)= \sum_{k=-\infty}^{\infty} f(n+k)g(k)$.
+If we do not pad (=valid), the output is smaller than the input:
+$m\times k=m-k+1$.
+With \textquote{same} padding, we add a zero-padding of size $p=\frac{(k-1)}{2}$ on both ends: $(m+p)\times k = (m-k+1)+2p = m$.
+
+Strides: We can skip some positions in the convolution, considering only one every $s$ positions ($s$ is the stride):
+$(f*_n g)(n)= \sum_{i=\sfrac{1-k}{2}}^{\sfrac{k-1}{2}} f(sn+i)g(i,j)$.
+
+The resulting grid is much smaller: $m\times_s k = \floor{(\sfrac{m-k}{s})}+1$.
+
+We can perform the same operation on 2D-grids, in both directions, to get a kernel $g$ being a $k\times k$ matrix (inputs $f$ and $f*g$ are also matrices).
+$(f*_n g)(n)= \sum_{i=\sfrac{1-k}{2}}^{\sfrac{k-1}{2}} \sum_{j=\sfrac{1-k}{2}}^{\sfrac{k-1}{2}} f(sm+i, sm+j)g(i,j)$ $\Rightarrow$ $\floor{(\sfrac{m-k+2p}{s})}+1$.
+
+2D Convolution with Channels
+The grid is now vector-valued, i.e., it has multiple features per point (eg: RGB image: 3 values per pixel).
+Inverting perspective: we have several feature maps or channels holding different information about the grid
+Inputs and outputs can have different numbers of channels $c_i$, and $c_o$.
+The feature direction is not a convolution direction: we don’t slide any window in that direction, we evaluate through (and have parameters for) the full input channel thickness for every output channel.
+Each point on the kernel grid now becomes a matrix (converts vectors into vectors) instead of a scalar ($1\times 1$ matrix).
+This means that $g$ (the kernel) is 4-dimensional with shape: ($k \times k \times c_o \times c_i$)
+$(f*_n g)(n)$ is now a $c_o\times 1$ vector, $g(i,j)$ a $c_o \times c_i$ matrix and $f(sm+i, sm+j)$ a $c_i\times 1$ vector.
+
+As activation layers, nonlinearities are needed to achieve complex fits $\rightarrow$ typically use ReLU activation after convolutional layers.
+
+Pooling layer: apply certain functions to a $k\times k$ window.
+Max pooling: take the maximum over the window.
+Average pooling: average values over the window
+Padding and strides can be applied
+We usually use stride $s=k$ to reduce the grid size in the pooling layer.
+Pooling is applied feature-by-feature (i.e., channel-by-channel).
+
+Visualizing the learned features is hard, as further into the network, the features become increasingly complex. 
+Filters can be \textquote{visualized} by optimizing the inputs to maximize their activation.
+
+Transfer learning: freeze weights in convolutional blocks. Use new inputs, discard old dense layers.
+
+Recurrent Neural Networks (RNNs)
+Recurrent neural networks treat sequences of inputs that can have variable length.
+Historically, RNNs have been developed for natural language processing applications.
+Machine translation, sentiment classification, speech recognition, etc.
+RNNs functional sequentially:
+One time-step at a time, the same operations are performed each time.
+Parameters are shared over all time-steps.
+Can be thought of as embedding time-invariance in the network
+They calculate a “state” of the system, and update it at each time-step. Depending on the application:
+Inputs can be either a sequence or just one vector
+Outputs can be either a sequence or just one vector
+Order of magnitude of weight sharing: $N^2$ where $N$ is the number of time-steps (typically $10 < N < 1'000$).
+
+Training RNNs: Vanishing / Exploding Gradients
+If we simplify the equations in Back Propagation through Time (BPTT), part of what we’re doing comes down to multiplying several times by the same matrix:
+$d(h(t)) = W\cdot d(h(t+1)) + (...) = (W)^{T-t}\cdot dh(T) + (...)$
+Note that the equation here is not exact – but it is easy to reason on.
+Depending on the eigenvalues of $W$, this can lead to:
+Exponential decay (for values $<1$) = \textquote{Vanishing gradients}
+Vanishing gradients make it hard to compute long-term dependencies (how the 10th step affects the 500th) Exponential explosions (for values $>1$) = \textquote{Exploding gradients}
+Exploding gradients can lead to numerical instability or errors during training.
+These two problems complicate the training of RNNs (and other very deep networks).
+
+Gradient Clipping: a solution against exploding gradients
+Cost functions for RNNs can look like successions of plateaus and cliffs. 
+Plateaus mean we need a large learning rate
+Once on cliffs we need to limit the size of the step we take
+Examples: $g\leftarrow \nabla_{\theta}(\scriptL(...))$, $\theta \leftarrow \theta - \alpha g * \sfrac{\max{(\gamma, \abs{g})}}{\abs{g}}$.
+
+Skip connections: providing “gradient highways” by breaking the layer by layer model. 
+Example: $a^{(l+1)} = \phi (W^{(l+1)}+a^{(l)}+b^{(l+1)})$, 
+$a^{(l+2)} = \phi (W^{(l+2)}+a^{(l+1)}+b^{(l+2)}+a^{(l)})$.
+
+Long Short-Term Memory (LSTM)
+The LSTM is an RNN architecture with \textquote{gates} that lets the gradient flow over long durations:
+We use $ * $ to note element-wise products.
+The LSTM has two state-vectors: $c(t), h(t)$.
+The gates $g_i$ (input), $g_f$ (forget) and $g_o$ (output) allow to only add / generate / pass on part of the information. Observe that $c$ has an update rule with a skip connection (conditioned by the forget gate).
+
+gates: $\begin{cases}
+g_i = \sigmoid{(W^{ix}\cdot x(t) + W^{(ih)}\cdot h(t-1) + b^{(i)})} \\
+g_f = \sigmoid{(W^{fx}\cdot x(t) + W^{(fh)}\cdot h(t-1) + b^{(i)})} \\
+g_o = \sigmoid{(W^{ox}\cdot x(t) + W^{(oh)}\cdot h(t-1) + b^{(o)})}
+\end{cases}$
+
+tentative increment: $\tilde{c} = \tanh{(W^{(cx)}\cdot x(t) + W^{(ch)}\cdot h(t-1) + b^{(c)})}$
+
+update rules: $\begin{cases}
+c(t) = g_f * c(t-1) + g_i *\tilde{c} \\
+h(t) = g_0 * \tanh{(c(t))}
+\end{cases}$
+
+$\Rightarrow$ RNN use cases: many-to-many, one-to-many, many-to-one.

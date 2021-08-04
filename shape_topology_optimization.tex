@@ -12,7 +12,7 @@ $\sum_{e=1}^N v_e \rho_e \leq V$,
 $0 < \rho_{\text{min}}\leq \rho_e \leq 1$, 
 $e=1,...N$ (e: element, V: volume).
 The derivative of the compliance is of the particularly simple form (at the element level):
-$\frac{\partial c}{\partial \rho_e} = -p \rho_e^{p-1} u^T K_e u$.
+$\sfrac{\partial c}{\partial \rho_e} = -p \rho_e^{p-1} u^T K_e u$.
 Computation of the derivative of the objective function with respect to the design variables is required, if a gradient-based optimization method is applied!
 
 \textbf{Filtering the sensitivities (numerical stabilization)}
@@ -20,7 +20,7 @@ Filtering of the sensitivity information is an efficient way to ensure mesh inde
 This means: modifying the design sensitivity of a specific element, based on the weighted average of the
 element sensitivities in a fixed neighborhood.
 $\rightarrow$ no extra constraints need to be considered (very simple to implement)
-$\frac{\hat{\partial c}}{\partial \rho_k} = \frac{1}{\rho_k \sum_{i=1}^N \hat{H_i}} \sum_{i=1}^N \hat{H_i} \rho_i \frac{\partial c}{\partial \rho_i}$.
+$\sfrac{\hat{\partial c}}{\partial \rho_k} = \sfrac{1}{\rho_k \sum_{i=1}^N \hat{H_i}} \sum_{i=1}^N \hat{H_i} \rho_i \sfrac{\partial c}{\partial \rho_i}$.
 
 The mesh independent factor $\hat{H_i}$ is written as
 $\hat{H_i} = r_{\text{min}} - \text{dist}(k,i), \{i \in N | \text{dist}(k,i) \leq r_{\text{min}}\}$, 
@@ -34,15 +34,15 @@ $\rightarrow$ Optimization variables $s$: free, discrete parameters which descri
 \textbf{FE-node based approach}
 FE-nodes, directly defined as design variables
 Allows the most freedom of shape change, does not require the time-consuming shape parametrization process.
-Either without filtering/smoothing techniques:  lacks a length scale control that is necessary to ensure a well-posed shape optimization problem and avoid numerical instabilities, or with: Motivated by the success of filtering techniques that impose minimum length scales in topology optimization.
+Either without filtering/smoothing techniques:  lacks a length scale control that is necessary to ensure a well-posed shape optimization problem and avoid numerical instability, or with: Motivated by the success of filtering techniques that impose minimum length scales in topology optimization.
 
 \textbf{Computer Aided Geometric Design (CAGD) – based approach}
 Design Elements (Splines, B-Splines, Bézier-Splines,....). Much less design variable than FE-node based.
-The geometry of the structure is approximated piecewise using the so-called design-elements (curves, surfaces or volume elements).
+The geometry of the structure is approximated piecewise using the so-called design elements (curves, surface, or volume elements).
 Optimization variable: Position of the control points of the design elements. 
 In general, the FE-mesh is much finer than the discretization with design elements. 
 Because of the strict separation between the geometry model and analysis model, numerical instabilities are avoided.
 Optimized shape is available in CAD format. Disadvantages:
-Coupling between the CAGD model and the FE-model have to be supported by the program.
+Couplings between the CAGD model and the FE-model have to be supported by the program.
 Problems due to re-meshing or definition of the new CAD model can occur.
 

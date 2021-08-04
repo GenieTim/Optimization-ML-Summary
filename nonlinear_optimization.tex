@@ -34,17 +34,17 @@ Condition on update: \textit{secant equation}: $B^{k+1} (x^{ki+1}-x^{k}) =B^{k+1
 Displacement $s^k$ and change of gradients $y^k$ must satisfy \textit{curvature condition}, $(s^k)^Ty^k>0$ for symmetric positive definite matrix $B^{k+1}$ map $s^k$ into $y^k$.
 Additional requirement for uniqueness: $\min_B(\norm{B-B^k}),$ with $B = B^T, Bs^k=y^k$. 
 Different norms $\leftrightarrow$ different Quasi-Newton methods.
-BFGS-Method: $B^{k+1} = B^{k} - \frac{B^k s^k (s^k)^T B^k}{(s^k)^T B^k s^k} + \frac{y^k (y^k)^T}{(y^k)^T s^k}$. % not subject of exam
+BFGS-Method: $B^{k+1} = B^{k} - \sfrac{B^k s^k (s^k)^T B^k}{(s^k)^T B^k s^k} + \sfrac{y^k (y^k)^T}{(y^k)^T s^k}$. % not subject of exam
 
 \textbf{Gauss-Newton Method}
 Also Q-N. 
-Approximation of Newton Method for least squares problem: $\min_{x \in R^n}(f(x))= \frac{1}{2} \norm{F(x)}^2, F: R^n \rightarrow R^m, m \gg n$. 
+Approximation of Newton Method for least squares problem: $\min_{x \in R^n}(f(x))= \sfrac{1}{2} \norm{F(x)}^2, F: R^n \rightarrow R^m, m \gg n$. 
 Convergence rate highly dependent on approximation of Hessian and order of non-linearity of $f$. 
 Searching direction by $\nabla f (x) = \nabla F(x)^T F(x)$ $\Rightarrow$ $d_{GN}^k = - (\nabla F(x^k)^T \nabla F(x^k))^{-1} (\nabla F(x^k)^T F(x^k))$
 
 \textbf{Levenberg-Marquardt Method}
 Also Q-N. 
-Gauss-Newton fails for singular $\nabla F(x^k)^T \nabla F(x^k)$. LM fixes this with trust region radius $\Delta^k$: $\min_{x \in R^n}(f(x))= \frac{1}{2} \norm{F(x^k) + \nabla F(x^k) d^k}^2, \norm{x^k} \leq \Delta^k$. 
+Gauss-Newton fails for singular $\nabla F(x^k)^T \nabla F(x^k)$. LM fixes this with trust region radius $\Delta^k$: $\min_{x \in R^n}(f(x))= \sfrac{1}{2} \norm{F(x^k) + \nabla F(x^k) d^k}^2, \norm{x^k} \leq \Delta^k$. 
 If this condition is not fulfilled, it is not equivalent anymore to the Gauss-Newton method, as of the introduction of parameter $\lambda > 0$: $ (\nabla F(x^k)^T \nabla F(x^k) + \lambda \mathbb{1}) d_{LM}^k = - \nabla F(x^k)^T F(x^k)$.
 
 \subsection*{Constrained Optimisation}
@@ -64,11 +64,11 @@ For weak local minimum: critical cone: $d^T \nabla_{xx}^2 L(x^* \lambda^*)d \geq
 For strong local minimum: $d^T \nabla_{xx}^2 L(x^* \lambda^*)d > 0 \forall d \in \kappa(x^*, \lambda^*)$
 
 \textbf{Penalty method}
-Introduce penalty function: $P(x,a) = f(x) + \frac{\alpha}{2} \sum_i^p c_i^2 (x)$. Solve with $\alpha$ increasing.
+Introduce penalty function: $P(x,a) = f(x) + \sfrac{\alpha}{2} \sum_i^p c_i^2 (x)$. Solve with $\alpha$ increasing.
 
 \textbf{Sequential quadratic programming (SQP) Method}
 One of the most effective for solving nonlinear (small and large) problems including highly nonlinear constraints.
-Model the problem $\min_{x\in R^n} f(x), c_i (x) = 0 \forall i \in I_{eq}, c_i (x) \geq 0 \forall i \in I_{in}$ by a quadratic programming subproblem $min_{d \in R^n} (\frac{1}{2} d^T \nabla_xx^2 L (x^k, \lambda^k) d + \nabla f (x^k)^T d + f(x^k)), c_i (x^k) + \nabla c_i (x^k)^T d = 0 \forall i \in I_{eq}, c_i (x^k) + \nabla c_i (x^k)^T d \geq 0 \forall i \in I_{in}$ at each iterate and define the search direction $d$ as the solution of the subproblem.
+Model the problem $\min_{x\in R^n} f(x), c_i (x) = 0 \forall i \in I_{eq}, c_i (x) \geq 0 \forall i \in I_{in}$ by a quadratic programming subproblem $min_{d \in R^n} (\sfrac{1}{2} d^T \nabla_xx^2 L (x^k, \lambda^k) d + \nabla f (x^k)^T d + f(x^k)), c_i (x^k) + \nabla c_i (x^k)^T d = 0 \forall i \in I_{eq}, c_i (x^k) + \nabla c_i (x^k)^T d \geq 0 \forall i \in I_{in}$ at each iterate and define the search direction $d$ as the solution of the subproblem.
 The new constraints are linearizations of the original constraints
 Note: $L(x,\lambda) = f(x) - \sum_{i\in A(x)}\lambda_i c_i (x)$
 In constrained gradient based optimization problems, quadratic subproblems have often to be solved $\Rightarrow$ fix with:

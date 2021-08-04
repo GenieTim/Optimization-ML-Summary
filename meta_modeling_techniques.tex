@@ -9,7 +9,7 @@ Disadvantages: Efficient computations are restricted to a small number of variab
 
 \textbf{Error analysis}
 Coefficient of determination:
-$R^2 = \frac{\sum_{i=1}^{n_p} (\hat{y}_i-\bar{y})^2}{\sum_{i=1}^{n_p} (y_i-\bar{y})^2}$
+$R^2 = \sfrac{\sum_{i=1}^{n_p} (\hat{y}_i-\bar{y})^2}{\sum_{i=1}^{n_p} (y_i-\bar{y})^2}$
 with $n_p$: number of exp. points, $y_i$: actual response, $\hat{y}_i$: predicted response, $\bar{y}$: mean values of responses.
 $0\leq R^2 \leq 1$. $R^2=1$ indicates perfect fit.
 Small $R^2$: the region of interest is too large or too small.
@@ -35,6 +35,6 @@ In general, the computational time of the fitting process is larger than using R
 3. Evaluate the model on the removed sample $x_i \rightarrow \hat{y}_{-1}$.
 4. Repeat the points 1. – 3. for each point of the data set.
 5. Compare the computed values with the data points of the real supporting points.
-$\epsilon_{RMS}=\sqrt{\frac{1}{n_p} \sum_{i=1}^{n_p} (y_i-\hat{y}_{-i})^2}$.
+$\epsilon_{RMS}=\sqrt{\sfrac{1}{n_p} \sum_{i=1}^{n_p} (y_i-\hat{y}_{-i})^2}$.
 
 

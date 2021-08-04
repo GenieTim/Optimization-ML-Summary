@@ -1,4 +1,4 @@
-\section*{Generalized methods for regression and classification, Neural Networks, Support Vector Machines}
+\section*{Generalized methods for regression and classification, Support Vector Machines}
 
 \textbf{Support Vector Machines} (SVM) 
 can be used for classification or continuous values for regression. 
@@ -10,7 +10,7 @@ Define a hyperplane in a higher dimensional feature space where the data is line
 The mapping to the higher dimensional space is defined by $\phi(x)$. 
 Kernel functions calculate the similarity of the two vectors without having to calculate the mapping function $k(x,x')=\phi(x^T)\phi(x')$.
 Common kernel functions:
-Linear: $k(x,x') = x^T x'$, polynomial: $k(x,x')=(x^T x' + 1)^p, p\in\doubleN$, Gaussian: $k(x,x')=\exp{-\frac{\norm{x-x'}^2}{2\sigma^2}}$, radial basis function: $k(x,x')=\exp{-\gamma\norm{x-x'}^2}$ (hyperparameter $\gamma$ determines how much influence data points with lower similarity have on the decision boundary).
+Linear: $k(x,x') = x^T x'$, polynomial: $k(x,x')=(x^T x' + 1)^p, p\in\doubleN$, Gaussian: $k(x,x')=\exp{(-\sfrac{\norm{x-x'}^2}{2\sigma^2})}$, radial basis function: $k(x,x')=\exp{-\gamma\norm{x-x'}^2}$ (hyperparameter $\gamma$ determines how much influence data points with lower similarity have on the decision boundary).
 
 \textbf{Support Vector Classification} (SVC)
 
@@ -90,146 +90,3 @@ The columns of $Z$ are called principal components.
 Since the off-diagonal elements of $C_Z$ are zero, the correlations of the principal components are zero.
 The dimensionality of $Z$ can be reduced by neglecting the principal components, which contribute the fewest of all to the total variance in the data.
 
-\subsection*{Neural Networks}
-\textbf{Deep Feedforward Network = Feedforward Neural Network = Multilayer Perceptrons} are algorithms that can be represented as a directed graph (=network) connecting several perceptrons, ie building blocks originally inspired by neurons (=neural).
-\textbf{Deep learning} is a branch of machine learning that focuses on neural network algorithms.
-These algorithms have been shown to outperform other alternatives on a number of challenging tasks, including machine vision, speech recognition, machine translation, etc. As a result, they are now extensively used in the industry.
-Neural networks provide the following \textit{advantages and disadvantages}: 1. They scale well to large amounts of data.
-2. They can learn patterns in the data.
-3. Evaluating the cost function gradient is straightforward and fast.
-4. The cost function is nonconvex – optimizing them can be difficult.
-
-Split the prediction function $\hat{y}=f_{NN} (x,\theta)$ with many parameters $\theta$ to use the minibatch variant of stochastic gradient descent to take more optimization steps faster.
-Choose cost-function $\scriptL(y,\hat{y})$ to measure closeness of $\hat{y}$ to $y$. 
-Define the loss on a collection of examples is the mean of the loss on each example: $J((x^i, y^i)_{i=1,...,n})=\frac{1}{n} \sum_{i=1}^n \scriptL(y^i, \hat{y}^i)$.
-We can then use optimization/regularization strategies to find a set of parameters $\theta$ for which the neural network: Performs well on training examples: low training error as well as performs also well on unseen (test, real world) examples: low generalization error.
-
-\textbf{Perceptron}: A perceptron = a unit. Gets the input vector (input features, or activations of earlier units) $x_1,...,x_n$, parameters bias $b$ and weights $w_1,...,w_n$ and calculates the sum of weighted constributions, $z=\sum w_i x_i + b = w^T x + b$, directed into the unit's activation function $a = \phi (z) = \phi (w^T x + b)$.
-An artificial neural network is a computational (oriented) graph that connects different units, starting with the inputs and finishing with the outputs.
-All functions are applied component-wise.
-
-Common \textit{activation functions}: 
-Step function (heaviside): 
-$H_a (x) = \begin{cases} 
-1 & \mbox{if } x \geq a \\
-0 & \mbox{if } x < a
-\end{cases}$, $H_a' (x) = 0$.
-Logistic sigmoid: $f(x) = \frac{1}{1+exp(-x)}, f'(x) = f(x)(1-f(x))$.
-Hyperbolic tangent: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$, $\tanh'(x)=1-\tanh^2(x)$.
-Linear unit (no activation): $f(x)=x$, $f'(x)=1$.
-Regularized Linear Unit (ReLU): $f(x) = \begin{cases} 
-x & \mbox{if } x \geq 0 \\
-0 & \mbox{if } x < 0
-\end{cases}$, $f' (x) = \begin{cases} 
-1 & \mbox{if } x \geq 0 \\
-0 & \mbox{if } x < 0
-\end{cases}$.
-Leaky ReLU: $f(x) = \begin{cases} 
-x & \mbox{if } x \geq 0 \\
-\alpha x & \mbox{if } x < 0
-\end{cases}$, $f' (x) = \begin{cases} 
-1 & \mbox{if } x \geq 0 \\
-\alpha & \mbox{if } x < 0
-\end{cases}$.
-
-\textbf{Layers}: Layers are formed by units in parallel that have the same activation function and
-the same inputs (but different parameters), and can thus be treated at the same time.
-This allows for the vectorization of all operations:
-The activations of a layer’s units are collected in an activation vector $a^{(i)}$. 
-The biases of the layer’s units form a bias vector $b^{(i)}$.
-The weights of the layer’s units form a weight matrix $W^{(i)}$.
-The number of units in a layer is the width $n_i$ of the layer.
-If $a^{(i)}$ is the activation vector of layer $i$, then the activation $a^{(i+1)}$ of the next layer is deduced as follows:
-$z^{(i+1)} = W^{(i+1)}a^{(i)} + b^{(i+1)}, a^{(i+1)}=\phi (z^{(i+1)})$.
-
-The layers that are not observed (neither input nor output) are called \textit{hidden}.
-The number of hidden layers is the depth of the network – hence the term "deep learning".
-
-Shallow neural networks consist of one (hidden) layer of units in parallel. 
-Both the input and output layers are directly connected.
-
-\textbf{Universal Approximator Property}: Any continuous function from a closed and bounded subset of $\doubleR^n$ to $\doubleR^m$ can be approximated arbitrarily well by a (large enough) neural network with a linear output layer, at least one hidden layer with any of the most common nonlinear activation
-functions.
-Why use deep neural networks? They perform better in practice, with fewer parameters and often generalize better.
-
-Regression with Neural Networks: Regression aims at estimating real-valued targets.
-It is usually performed using:
-1. A linear output layer (i.e., no activation function). Note: the hidden layers always have a nonlinear activation function (typically ReLU or tanh), otherwise the layers are transparent in the equations.
-2. The mean squared error (mse) as a loss function: $\scriptL(\hat{y}, y) = \frac{1}{m} \sum_{j=1}^m (\hat{y}_j - y_j)^2$.
-Mean absolute error (mae) or more complicated losses are preferred in certain cases, for example, to reduce the influence of outliers.
-The model is used the same way for training and for prediction.
-
-Binary classification with Neural Networks: Binary classification aims at estimating a target valued in {0,1}.
-For prediction purposes:
-We use a step function with a threshold.
-However this function has 0-valued derivatives almost everywhere – backpropagation will fail. The choice of threshold is important: it controls the tradeoff between precision and recall.
-During training:
-We use a sigmoid activation as a surrogate.
-The loss is defined as the categorical (or binary) cross-entropy:
-$\scriptL(\hat{y}, y) = -y \cdot \log{(\hat{y})} - (1-y)\cdot \log{(1-\hat{y})}$.
-
-To do forward propagation, we propagate information forward in the network,
-starting from the input vector. Therefore, the composition of functions (with additional inputs at each level) are calculated.
-
-For back propagation:
-To use SGD methods, we need to calculate the gradient of the loss with respect to the weights. We think of it as “the amount of error carried by $z$ and we note it $dz$ for short. If $\lambda$ is the loss: 
-$dW^{(i)} = \frac{\partial \lambda}{\partial W^{(i)}}$, $db^{(i)} = \frac{\partial \lambda}{\partial b^{(i)}}$, also $d\hat{y}, da^{(i)}. dz^{(i)}$.
-For this we use an algorithm called backpropagation of errors = back-propagation = backprop. Backpropagation is an efficient algorithm and the motor behind the training of deep learning models.
-Backpropagation relies on the chain rule for differentiation - if $\alpha$ and $\beta$ are two quantities of interest: 
-$d\alpha = \frac{\partial \lambda}{\partial \alpha} =  \frac{\partial \lambda}{\partial \beta} \cdot  \frac{\partial \beta}{\partial \alpha} = d\beta \cdot  \frac{\partial \beta}{\partial \alpha}$.
-We can apply this rule successively to the neural network, starting from the outside of the composition.
-
-To optimize neural networks: When networks and datasets are small:
-The techniques seen in the first part of the class can be used: Conjugate Gradient, BFGS, etc...
-Otherwise: Stochastic Gradient Descent (and variants).
-A good default choice: Adam with default parameters.
-Adam is a stochastic gradient descent variant that adapts its learning rate to each weight.
-
-Stochastic Gradient Descent Pros and cons:
-Smaller (mini) batch sizes mean faster iterations, but also smaller batch sizes mean less precise gradients.
-Adds randomness to the path – can help avoid local minima.
-
-Variants: Add momentum: time-average of the gradient estimate. RMSProp: normalize gradients by a time-average of the square of gradients. Adam: running average of both gradients ($\beta_1 = 0.9$) and their squared values ($\beta_2 = 0.999$).
-
-Weight initialization: breaking the symmetry
-Because the units of each layers have the same formulation and the same inputs, their role is symmetric.
-If we initialize with the same weights, the gradient will be symmetric as well – the units will all evolve the same way.  Instead, we initialize the weights at random between 0 and 1.
-Several more complex initialization schemes exist.
-
-Randomness of training:
-Both the weight initialization and the algorithms are stochastic
-The final solution can vary a lot, even for the same procedure
-Several trainings might be needed to assess whether a training strategy works reliably.
-
-Regularization strategies for neural networks
-Regularization encompasses all the strategies that aim not at reducing the generalization error (or test
-error) – as opposed to reducing the training error, which is the goal of optimization.
-Ultimately, having a low generalization error is our goal – so regularization is very important to us. 
-Numerous techniques are used to achieve that end.
-Getting a better dataset
-A bigger, more representative, cleaner, dataset. 
-The best method there is – if it’s possible.
-Data augmentation
-Adding copies of current examples, modified in a way that we know to be valid
-Example: apply a symmetry to data from a system that is invariant through that symmetry
-Adding noise to examples (inputs or outputs)
-
-Regularization strategies for neural networks
-Regularization terms in the loss:
-Adding a L1 or an L2 term to the loss: $\lambda\sum \abs{w_i}$ or $\lambda \sum (w_i)^2$.
-Note: L2 regularization is also called “weight decay” due to the effect it has on weight update rules.
-Early stopping:
-Train once ; note down when the test error started going up ; train a new model with that number of epochs.
-Model averaging:
-Train several models. Average their response.
-Dropout:
-Dropout on a layer consists in “dropping” (setting to zero) the activations of a percentage of its units during training.  This forces the layer to become “resilient” and develop several pathways to transmit information to the next layer.
-The weights need to be rescaled (proportionally) accordingly after training.
-Weight sharing:
-Use the same weights in different parts of the network.
-Reduces the complexity of the network – less potential for overfitting.
-Can be seen as introducing knowledge about the structure of the data within the neural network.  We will see examples of this in the next lecture.
-Note: Backpropagation with weight sharing
-Perform backpropagation as if the weights were different
-Sum up the contributions afterwards
-Other way to look at it: project the gradient on the relevant sub-space

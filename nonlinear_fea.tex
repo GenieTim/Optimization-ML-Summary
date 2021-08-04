@@ -8,7 +8,7 @@ $\hat{u}$: nodal displacements. $N$: matrix of interpolation functions. $B$: str
 Mapping from isoparametric space to real space by Jacobi $J^{-1}$.
 
 \textbf{4-Node bilinear element}
-has shape/interpolation functions, $N_1 = \frac{1}{4}(1-r)(1-s), N_2 = \frac{1}{4}(1+r)(1-s), N_3 = \frac{1}{4}(1+r)(1+s), N_4 = \frac{1}{4}(1-r)(1+s)$, interpolation matrix $N=
+has shape/interpolation functions, $N_1 = \sfrac{1}{4}(1-r)(1-s), N_2 = \sfrac{1}{4}(1+r)(1-s), N_3 = \sfrac{1}{4}(1+r)(1+s), N_4 = \sfrac{1}{4}(1-r)(1+s)$, interpolation matrix $N=
 \begin{bmatrix}
 N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4 & 0 \\
 0 & N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4
@@ -16,17 +16,17 @@ N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4 & 0 \\
 \hat{u}_x^{(1)} & \hat{u}_y^{(1)} & \hat{u}_x^{(2)} & \hat{u}_y^{(2)} &
 \hat{u}_x^{(3)} & \hat{u}_y^{(3)} & \hat{u}_x^{(4)} & \hat{u}_y^{(4)}
 \end{bmatrix}$ and strain interpolation matrix $B_i = \begin{bmatrix}
-\frac{\partial N_i}{\partial x} & 0 \\
-0 & \frac{\partial N_i}{\partial y} \\
-\frac{\partial N_i}{\partial y} & \frac{\partial N_i}{\partial x} \\
+\sfrac{\partial N_i}{\partial x} & 0 \\
+0 & \sfrac{\partial N_i}{\partial y} \\
+\sfrac{\partial N_i}{\partial y} & \sfrac{\partial N_i}{\partial x} \\
 \end{bmatrix}$, $B= \begin{bmatrix}
 B_1 & B_2 & B_3 & B_4
 \end{bmatrix}$, $J^{-1}\begin{bmatrix}
-\frac{\partial N_i}{\partial r} \\
-\frac{\partial N_i}{\partial s}
+\sfrac{\partial N_i}{\partial r} \\
+\sfrac{\partial N_i}{\partial s}
 \end{bmatrix} =\begin{bmatrix}
-\frac{\partial N_i}{\partial x} \\
-\frac{\partial N_i}{\partial y}
+\sfrac{\partial N_i}{\partial x} \\
+\sfrac{\partial N_i}{\partial y}
 \end{bmatrix}$.
 
 Element force vectors are given by
@@ -45,17 +45,17 @@ Update the global displacements as $\hat{u}_{n+1}^{(k)} = \hat{u}_{n+1}^{(k-1)} 
 \subsection*{Constrained Optimization in FEM}
 \textbf{Contact Modelling (Imposition of Constraints)}
 \textit{Penalty Method:}
-The potential energy of a discretized system is given by $\Pi = \frac{1}{2} U^T K U - U^T R$ with $U\in\doubleR^n$: nodal displacements, $K\in\doubleR^{n\times n}$: global stiffness matrix and $R\in\doubleR^n$: external forces on nodes.
+The potential energy of a discretized system is given by $\Pi = \sfrac{1}{2} U^T K U - U^T R$ with $U\in\doubleR^n$: nodal displacements, $K\in\doubleR^{n\times n}$: global stiffness matrix and $R\in\doubleR^n$: external forces on nodes.
 First term: elastic, second: potential (of external forces) energy.
 Boundary conditions: $ZU=V$, $Z\in\doubleR^{m \times n}, V\in \doubleR^m$, $m$: Nr. of boundary conditions. 
 Add the violation as a penalty term:
-$\Pi = \frac{1}{2} U^T K U - U^T R + \frac{\alpha}{2}(ZU-V)^T(ZU-V)$.
+$\Pi = \sfrac{1}{2} U^T K U - U^T R + \sfrac{\alpha}{2}(ZU-V)^T(ZU-V)$.
 Choose $\alpha \gg K_{?,?}$.
 To minimize: $\partial\Pi = \partial U^T (KU -R+\alpha Z^T (ZU-V))=0$.
 Has to be fulfilled for every $\partial U^T \Rightarrow U = (K+\alpha Z^T Z)^{-1} (R+\alpha Z^T V)$
 
 \textit{Lagrange Multiplier Method:}
-$\Pi = \frac{1}{2} U^T K U - U^T R + \lambda^T (ZU-V)$, and with $\partial \Pi = 0$, we get $\begin{bmatrix}
+$\Pi = \sfrac{1}{2} U^T K U - U^T R + \lambda^T (ZU-V)$, and with $\partial \Pi = 0$, we get $\begin{bmatrix}
 K & Z^T \\
 Z & 0
 \end{bmatrix} \begin{bmatrix}
