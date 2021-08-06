@@ -31,18 +31,20 @@ Determine the optimal shape of edges and surfaces. No change in topology.
 Transformation of the variational problem into a parameter optimization problem
 $\rightarrow$ Optimization variables $s$: free, discrete parameters which describe the shape of the structure.
 
-\textbf{FE-node based approach}
-FE-nodes, directly defined as design variables
-Allows the most freedom of shape change, does not require the time-consuming shape parametrization process.
-Either without filtering/smoothing techniques:  lacks a length scale control that is necessary to ensure a well-posed shape optimization problem and avoid numerical instability, or with: Motivated by the success of filtering techniques that impose minimum length scales in topology optimization.
+\textbf{FE-node based approach}:
+FE-nodes are directly defined as design variables.
+Most freedom of shape change, no time-consuming shape parametrization process is required.
+Either without filtering/smoothing techniques: lacks a length scale control that is necessary to ensure a well-posed shape optimization problem and avoid numerical instability, 
+or with: motivated by the success of filtering techniques that impose minimum length scales in topology optimization.
 
 \textbf{Computer Aided Geometric Design (CAGD) – based approach}
 Design Elements (Splines, B-Splines, Bézier-Splines,....). Much less design variable than FE-node based.
-The geometry of the structure is approximated piecewise using the so-called design elements (curves, surface, or volume elements).
+Approximate geometry of the structure piecewise using so-called design elements (curves, surface, or volume elements).
 Optimization variable: Position of the control points of the design elements. 
 In general, the FE-mesh is much finer than the discretization with design elements. 
 Because of the strict separation between the geometry model and analysis model, numerical instabilities are avoided.
-Optimized shape is available in CAD format. Disadvantages:
+Optimized shape is available in CAD format. 
+Disadvantages:
 Couplings between the CAGD model and the FE-model have to be supported by the program.
 Problems due to re-meshing or definition of the new CAD model can occur.
 

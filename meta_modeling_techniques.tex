@@ -20,7 +20,7 @@ $R^2$ represents the ability of the response surface to predict the variation of
 Adapt the subdesign space.
 
 \textbf{Kriging}
-High quality approximation, very flexible models. 
+High quality approximation, very flexible model. 
 
 Meta-model $y=f(x)+Z(x)$, with $y(x)$: unknown interest, $f(x)$: known polynomial, regression coefficient $a$, $Z(x)$: stochastic component with mean zero and $\cov{[Z(x^i), Z(x^j)]} = \sigma^2 R[R(x^i, x^j)]$, with $R$: $n\times n$ correlation matrix (symmetric, unit diagonal) with $R(x^i, x^j)$ correlation between $x^i, x^j$.
 E.g. exponential: $R=\prod_{k=1}^{m}\exp{-\theta_k \abs{d_k}}$ or Gaussian: $R=\prod_{k=1}^{m}\exp{-\theta_k \abs{d_k^2}}$ with $m$: number of variables, $d_k=x_k^i - x_k ^j$.

@@ -1,4 +1,4 @@
-\section*{Generalized methods for regression and classification, Support Vector Machines}
+\section*{Methods for Regression and Classification}
 
 \textbf{Support Vector Machines} (SVM) 
 can be used for classification or continuous values for regression. 
@@ -6,24 +6,22 @@ The class of an unseen data point is determined by comparing it with the support
 SVMs rely on solving a convex optimization problem.
 
 \textit{Kernels}
-Define a hyperplane in a higher dimensional feature space where the data is linearly separable. 
+define a hyperplane in a higher dimensional feature space where the data is linearly separable. 
 The mapping to the higher dimensional space is defined by $\phi(x)$. 
 Kernel functions calculate the similarity of the two vectors without having to calculate the mapping function $k(x,x')=\phi(x^T)\phi(x')$.
 Common kernel functions:
 Linear: $k(x,x') = x^T x'$, polynomial: $k(x,x')=(x^T x' + 1)^p, p\in\doubleN$, Gaussian: $k(x,x')=\exp{(-\sfrac{\norm{x-x'}^2}{2\sigma^2})}$, radial basis function: $k(x,x')=\exp{-\gamma\norm{x-x'}^2}$ (hyperparameter $\gamma$ determines how much influence data points with lower similarity have on the decision boundary).
 
-\textbf{Support Vector Classification} (SVC)
-
-\textit{Hard Margin SVC}: In two-class classification, the goal is to find a decision surface $y(x)=w^T\phi(x)+b$, with $w$: learning parameter vector, $\phi(x)$: feature transformation, $b$: bias.
+\textbf{Support Vector Classification} (SVC):
+In two-class classification, the goal is to find a decision surface $y(x)=w^T\phi(x)+b$, with $w$: learning parameter vector, $\phi(x)$: feature transformation, $b$: bias.
 The training set consists of input samples $x_1,...x_N$ with corresponding target values $t_1,...,t_N$ where $t_i\in {-1,1}$.
 Under the assumption that the data set is linearly separable in the transformed feature space $\phi(x)$, at least one solution $w,b$ exists such that $t_n y(x_n)>0$ for all data points.
-
 SVMs find the single decision boundary $y(x)$ that maximizes the smallest distance between any sample to itself (also called the margin).
 
 SVC is helpful, as the class of an unseen data point is determined by comparing it to the support vectors in the training set by using the chosen kernel.
 The kernel trick allows for the insertion of an arbitrary kernel that corresponds to an indefinitely dimensional feature transformation (e.g., the Gaussian kernel), but without calculating the feature transformation.
 
-A hard-margin SVC can lack from overfitting to the training data. In general, a perfect classification!
+\textit{Hard Margin SVC}: can lack from overfitting to the training data. In general, a perfect classification!
 However, the resulting decision surface will give a poor generalization.
 
 \textit{Soft Margin SVC}
@@ -46,26 +44,24 @@ separates the training data multiple times during the loss calculation to avoid 
 There exist several classification loss equations.
 
 \textbf{Kriging vs. SVM parameter determination}
-Iterate util convergence. 
-Kriging minizes the cost function $L(\theta,sigma^2, a)$ for constant regression parameter $a$ to get $\theta, \sigma^2$. 
+Iterate until convergence. 
+Kriging minimizes the cost function $L(\theta,sigma^2, a)$ for constant regression parameter $a$ to get $\theta, \sigma^2$. 
 Thereafter, you minimize the cost function for constant correlation parameters $\theta$ and covariance $\sigma^2$ to get $a$. Start again.
 For SVM, the cost function is $L(C, \gamma, w)$, first for constant $w$, then for constant hyper-parameters $C$ and $\gamma$.
 
 \textbf{Support Vector Machines Regression} (SVR)
 SVM not only does support linear and nonlinear classification, but it also supports linear and nonlinear regression.
-The trick is to reverse the objective: instead of trying to fit the largest possible street between two classes while limiting margin violations, SVM Regression tries to fit as many instances as possible on the street while limiting margin violations.
+Just reverse the objective: instead of trying to fit the largest possible street between two classes while limiting margin violations, SVM Regression tries to fit as many instances as possible on the street while limiting margin violations.
 The width of the street is controlled by a hyperparameter $\epsilon$.
-
 In SVR, the error function from Ridge Regression is replaced by a function that only penalizes data points that lie ouside the $\epsilon$-tube:
 
 $E_\epsilon (t-y(x)) = \begin{cases} 
 0 &\mbox{if } \abs{t-y(x)} < \epsilon \\
 \abs{t-y(x)} - \epsilon & \mbox{otherwise}
-\end{cases}$
-
+\end{cases}$.
 The regularized error function in SVR that needs to be minized is:
-$\frac{1}{2} \norm{w}^2 - C \sum_{n=1}^N E_{\epsilon} (y(x_n) - t_n)$
-Note: C: Regularization parameter (hyper-parameter), $y(x_n)=w^T \phi(x_n)+b$.
+$\frac{1}{2} \norm{w}^2 - C \sum_{n=1}^N E_{\epsilon} (y(x_n) - t_n)$.
+Note: $C$: Regularization parameter (hyper-parameter), $y(x_n)=w^T \phi(x_n)+b$.
 
 Similar to SVC slack variables are introduced: $\xi$ and $\hat{\xi}$, per data point that needs to be optimized.
 $\xi>0$ corresponds to a point that fulfils $t_n > y(x_n) + \epsilon$. 
@@ -79,8 +75,8 @@ $max_{a_n, \hat{a}_n} \tilde{L} = \frac{1}{2} \sum_{n=1}^N \sum_{m=1}^N (a_n - \
 s.t. $0\leq a_n \leq C, 0 \leq \hat{a}_n \leq C$.
 Predictions for new inputs are made by $y(x) = \sum_{n=1}^N (a_n - \hat{a}_n) \textcolor{purple}{k(x,x_n)} + b$.
 
-\subsection*{Pricipal Component Analyis (PCA)}
-Sampling covariance matrix of $X$ ($d$ features as columns, $n$ observations in rows): $C_X = \frac{1}{n-1}X^T X$.
+\textbf{Pricipal Component Analyis (PCA)}
+Sampling covariance matrix of $X$ ($d$ features as columns, $n$ observations in rows): $C_X = \sfrac{1}{n-1}X^T X$.
 Symmetric. Variance of the columns of $X$ in diagonal and correlation in off-diagonals.
 Goal of PCA: find a coordinate system where $C_x = P^T C_Z P$ is diagonal. 
 Columns of $P$ contain the eigenvectors of $C_X$, $C_Z$ is the sampling covariance with respect to the new basis $P$.

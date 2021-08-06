@@ -8,31 +8,33 @@ $\hat{u}$: nodal displacements. $N$: matrix of interpolation functions. $B$: str
 Mapping from isoparametric space to real space by Jacobi $J^{-1}$.
 
 \textbf{4-Node bilinear element}
-has shape/interpolation functions, $N_1 = \sfrac{1}{4}(1-r)(1-s), N_2 = \sfrac{1}{4}(1+r)(1-s), N_3 = \sfrac{1}{4}(1+r)(1+s), N_4 = \sfrac{1}{4}(1-r)(1+s)$, interpolation matrix $N=
+has shape/interpolation functions $N_1 = \sfrac{1}{4}(1-r)(1-s)$, $N_2 = \sfrac{1}{4}(1+r)(1-s)$, $N_3 = \sfrac{1}{4}(1+r)(1+s)$, $N_4 = \sfrac{1}{4}(1-r)(1+s)$, interpolation matrix $N=
 \begin{bmatrix}
 N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4 & 0 \\
 0 & N_1 & 0 & N_2 & 0 & N_3 & 0 & N_4
-\end{bmatrix}$, nodal displacements $\hat{u} = \begin{bmatrix}
+\end{bmatrix}$, 
+nodal displacements $\hat{u} = \begin{bmatrix}
 \hat{u}_x^{(1)} & \hat{u}_y^{(1)} & \hat{u}_x^{(2)} & \hat{u}_y^{(2)} &
 \hat{u}_x^{(3)} & \hat{u}_y^{(3)} & \hat{u}_x^{(4)} & \hat{u}_y^{(4)}
-\end{bmatrix}$ and strain interpolation matrix $B_i = \begin{bmatrix}
+\end{bmatrix}$ 
+and strain interpolation matrix $B_i = \begin{bmatrix}
 \sfrac{\partial N_i}{\partial x} & 0 \\
 0 & \sfrac{\partial N_i}{\partial y} \\
 \sfrac{\partial N_i}{\partial y} & \sfrac{\partial N_i}{\partial x} \\
-\end{bmatrix}$, $B= \begin{bmatrix}
-B_1 & B_2 & B_3 & B_4
-\end{bmatrix}$, $J^{-1}\begin{bmatrix}
+\end{bmatrix}$, 
+$J^{-1}\begin{bmatrix}
 \sfrac{\partial N_i}{\partial r} \\
 \sfrac{\partial N_i}{\partial s}
 \end{bmatrix} =\begin{bmatrix}
 \sfrac{\partial N_i}{\partial x} \\
 \sfrac{\partial N_i}{\partial y}
+\end{bmatrix}$, 
+$B= \begin{bmatrix}
+B_1 & B_2 & B_3 & B_4
 \end{bmatrix}$.
-
 Element force vectors are given by
 $f_e^{int} = \int_{\Omega^e} B^T \sigma dV$, $f_e^{ext} = \int_{\Omega^e} N^T b  dV + \int_{\partial\Omega^e} N^T t  da$.
 Using numerical integration, that is $f_e^{int} = \sum_{i=1}^{n_{\text{gaussp}}} w_i B_i ^T \sigma_i \det{J_i}$ and $f_e^{ext} = \sum_{i=1}^{n_{\text{gaussp}}} w_i N_i ^T b_i \det{J_i} + \sum_{i=1}^{n_{\text{gaussp}}} w_i^b N_i ^T t_i \sigma_i \det{J_i^b}$, respectively.
-
 Assemble globally: $f^{int} = \bigcup_{e=1}^{n_{\text{elem}}} f_e^{int}$,  $f^{ext} = \bigcup_{e=1}^{n_{\text{elem}}} f_e^{ext}$ ($\bigcup$: finite element assembly operator).
 
 For linear elasticity, we have the elasticity matrix $D^e$ related as $\sigma= D^e \epsilon = D^e B \hat{u}$, and the stiffness matrix $K ^e = \int_{\Omega^e} B^T D^e B dV$.

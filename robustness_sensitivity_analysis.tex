@@ -1,30 +1,28 @@
 \section*{Robustness and Sensitivity Analysis}
 
-\subsection*{Robust Design Optimization}
-Robust Design Optimization methods determine an optimal design which is insensitive to uncertainties in certain
-design parameters
+\subsection*{Robust Design Optimization (RDO)}
+Robust Design Optimization methods determine an optimal design which is insensitive to uncertainties in certain design parameters.
 FEM based optimization techniques can also directly be applied to RDO
-In addition to the Design Variables (DV) in deterministic optimization also Noise Variables (NV) come in to the picture, which have to be appropriately treated from the points of view of DoE and RSM.
+In addition to the Design Variables (DV) in deterministic optimization, also Noise Variables (NV) come in to the picture, which have to be appropriately treated from the point of view of DoE and RSM.
 
 Deterministic optimization will look for the optimal $\vec{x}^*$ which minimizes the objective function without taking the scatter into consideration!
 The objective of the Robust Design (RD) optimization is to find a design with a minimal variance of the scattering model responses around the mean values of the design parameters
 Optimized designs within the sigma level $\pm 2$ ($\pm 2\sigma = 95.4\%$) are characterized as Robust Design.
 
-\textbf{Principle of nonlinearity}
-Assume the function y is defined as: $y=f(\vec{x}, \vec{z})$. where $\vec{x}$ is the vector of design variables and $\vec{z}$ is the vector of noise variables. 
-If we select values for our design variables $\vec{x}$ which minimize the so-called sensitivity coefficients $\frac{\partial f(\vec{x}, \vec{z})}{\partial z_i}$ we can also minimize the scatter of the outcome.
+\textbf{Principle of nonlinearity}:
+Assume the function $y$ is defined as: $y=f(\vec{x}, \vec{z})$. where $\vec{x}$ is the vector of design variables and $\vec{z}$ is the vector of noise variables. 
+If we select values for our design variables $\vec{x}$ which minimize the so-called sensitivity coefficients $\sfrac{\partial f(\vec{x}, \vec{z})}{\partial z_i}$ we can also minimize the scatter of the outcome.
 
-\textbf{Objective Functions for Robust Optimization}
+\textbf{Objective Functions for Robust Optimization}:
 E.g., minimization of mean response ($\min(\mu_f - m)^2$, s.t. $\mu_f + k\sigma_f \leq USL, \mu_f - k\sigma_f \geq LSL$), minimization of standard deviation ($\min(\sigma_f)$, s.t. dito) or minimization of both ($\min(\mu_f - m)^2 + k \sigma_f^2$, s.t. dito).
 USL = Upper Specification Limit.
 
 
-\textbf{Single Response Surface Method}
-Robust Design Optimization
-Based on Design of Experiments (DoE) and Response Surface Methods (RSM, SRSM)
+\textbf{Single Response Surface Method}:
+Robust Design Optimization based on Design of Experiments (DoE) and Response Surface Methods (RSM, SRSM)
 
 The parameter set is now composed of the union of the DV’s and NV’s which are used in the DoE indistinctly.
 The response surface is then fitted to the combined set of DV’s and NV’s directly: $y=f(\vec{x}, \vec{y})$.
 The mean and variance functions are derived from this model, 
-$\mu_y = E[f(\vec{x},\vec{z})]$ and $\sigma_y = Var[f(\vec{x},\vec{z})]^{\frac{1}{2}}$.
-The DV’s and NV’s are included in the DoE in a mixed manner, thus substantial savings in computational cost can be made
+$\mu_y = E[f(\vec{x},\vec{z})]$ and $\sigma_y = Var[f(\vec{x},\vec{z})]^{\sfrac{1}{2}}$.
+The DV’s and NV’s are included in the DoE in a mixed manner, thus substantial savings in computational cost can be made.

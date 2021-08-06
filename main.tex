@@ -104,8 +104,6 @@ listing engine=minted,minted language=#1}
                {\list{\faQuoteLeft\phantom{ }}{\rightmargin\leftmargin}%
                 \item\relax\scriptsize\ignorespaces}
                {\unskip\unskip\phantom{xx}\faQuoteRight\endlist}
-               
-
 %--------------------------------------------------------------------------------
 \newcommand{\bgupper}[3]{\colorbox{#1}{\color{#2}\huge\bfseries\MakeUppercase{#3}}}
 \newcommand{\bg}[3]{\colorbox{#1}{\bfseries\color{#2}#3}}
@@ -113,6 +111,7 @@ listing engine=minted,minted language=#1}
 \newcommand{\mycommand}[2]{{\ttfamily\detokenize{#1}}~\dotfill{}~{\footnotesize #2}\\}
 \newcommand{\sep}{{\scriptsize~\faCircle{ }~}}
 
+%--------------------------------------------------------------------------------
 
 \newcommand{\bggreen}[1]{\medskip\bgupper{w3schools}{black}{#1}\\[0.5em]}
 \newcommand{\green}[1]{\smallskip\bg{w3schools}{white}{#1}\\}
@@ -160,7 +159,7 @@ listing engine=minted,minted language=#1}
 \renewcommand{\section}{\@startsection{section}{1}{0mm}%
                                 {.2ex}%
                                 {.2ex}%x
-                                {\color{myblue}\sffamily\small\bfseries}}
+                                {\color{myblue}\sffamily\footnotesize\bfseries}}
 \renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
                                 {.2ex}%
                                 {.2ex}%x
@@ -283,27 +282,19 @@ listing engine=minted,minted language=#1}
     \set@mult@vsize \global
   \fi}
   
+%--------------------------------------------------------------------------------
 % https://tex.stackexchange.com/questions/341717/smaller-font-for-subscript-within-subscript-in-math-mode
 %\usepackage{fix-cm}
 %\DeclareMathSizes{10}{7}{4}{2}
 
 % https://tex.stackexchange.com/questions/43008/absolute-value-symbols
-\usepackage{mathtools}
+% but no, we want the shot ones
+%\usepackage{mathtools}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+%\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+%\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
 
-\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
-\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
-
-% Swap the definition of \abs* and \norm*, so that \abs
-% and \norm resizes the size of the brackets, and the 
-% starred version does not.
-\makeatletter
-\let\oldabs\abs
-\def\abs{\@ifstar{\oldabs}{\oldabs*}}
-%
-\let\oldnorm\norm
-\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
-
-\makeatother
 \setlength{\parindent}{0pt}
 
 \usepackage{caption}
@@ -318,6 +309,7 @@ listing engine=minted,minted language=#1}
 \newcommand*{\floor}{\ensuremath{\mathrm{floor}}}
 \newcommand*{\sigmoid}{\ensuremath{\mathrm{sigmoid}}}
 
+%--------------------------------------------------------------------------------
 \begin{document}
 \begin{multicols*}{4}
 \scriptsize

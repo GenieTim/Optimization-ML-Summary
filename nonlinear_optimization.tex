@@ -25,11 +25,12 @@ Quadratic convergence.
 Avoids the inversion of the Hessian-matrix by quadratic approximation of the function $f$. The linear system of equations $\nabla^2 f(x^k) d^{k} = -\nabla f(x^k) \Leftrightarrow d^k = - (\nabla^2 f(x^{k}))^{-1} \nabla f(x^k)$ (Newton-equation) is solved instead, to get $x^{k+1}=x^k + d^k$.
 No guarantee that a solution exists at the current iteration point. Newton search direction is not necessary a descent direction.
 Ensure local convergence by step size strategy and choosing the steepest descent as the search direction at the current iteration $\rightarrow$ descent search direction.
+Hessian required positive-definite.
 
 \textbf{Quasi-Newton Method}
 Super-linear convergence. No linear system of equations are solved.
 Approximate Hessian-Matrix $B^k$. 
-Updating formula: Broyden, Fletcher, Goldfarb and Shanno (BFGS) and DFP.
+Updating formula: Broyden, Fletcher, Goldfarb and Shanno (\textbf{BFGS}) and \textbf{DFP}.
 Condition on update: \textit{secant equation}: $B^{k+1} (x^{ki+1}-x^{k}) =B^{k+1} s^{k}=y^{k}= \nabla f^{k+1}-\nabla f^{k}$. 
 Displacement $s^k$ and change of gradients $y^k$ must satisfy \textit{curvature condition}, $(s^k)^Ty^k>0$ for symmetric positive definite matrix $B^{k+1}$ map $s^k$ into $y^k$.
 Additional requirement for uniqueness: $\min_B(\norm{B-B^k}),$ with $B = B^T, Bs^k=y^k$. 
@@ -57,7 +58,7 @@ Optimality condition not simply performing the first and the second derivative o
 \textbf{Lagrange formulation} of the optimization problem (with $\lambda_i$: Lagrange multiplier): $L(x,\lambda) = f(x) - \sum_{i\in A(x)}\lambda_i c_i (x)$.
 \textbf{Critical cone}: $\kappa(x^*, \lambda^*) = \{d \in F(x^*) \mid \nabla c_i (x^*) ^T d = 0, \forall i \in A(x^*) \text{ with } \lambda_i^* > 0$.
 
-\textbf{First order conditions} (for constrained problems): \textit{KKT-conditions}: $\nabla_x L(x^*, \lambda^*) = 0, c_i(x^*) = 0 \forall i \in I_{eq}, c_i (x^*) \geq 0 \forall i \in I_{in}, \lambda_i^* \geq 0 \forall i \in I_{in}, \lambda_o^* c_i (x^*) = 0 \forall i \in I_{eq} \cup I_{in}$. Gradient is $\nabla_x L (x, \lambda) = \nabla_x f(x) - \sum_{i\in A(x)} \lambda_i \nabla_x c_i (x)$
+\textbf{First order conditions} (for constrained problems): \textbf{KKT-conditions}: $\nabla_x L(x^*, \lambda^*) = 0, c_i(x^*) = 0 \forall i \in I_{eq}, c_i (x^*) \geq 0 \forall i \in I_{in}, \lambda_i^* \geq 0 \forall i \in I_{in}, \lambda_o^* c_i (x^*) = 0 \forall i \in I_{eq} \cup I_{in}$. Gradient is $\nabla_x L (x, \lambda) = \nabla_x f(x) - \sum_{i\in A(x)} \lambda_i \nabla_x c_i (x)$
 
 \textbf{Second order conditions} (for constrained problems): KKT-conditions as well as:
 For weak local minimum: critical cone: $d^T \nabla_{xx}^2 L(x^* \lambda^*)d \geq 0 \forall d \in \kappa(x^*, \lambda^*)$.  
@@ -78,13 +79,14 @@ In constrained gradient based optimization problems, quadratic subproblems have 
 Simple, can find global minimum, require lots of function evaluations (but those only). A new generation of individuals is produced using crossover, mutation, ..., operations.
 
 %\begin{wrapfigure}{R}{0.5\linewidth}
-\begin{figure}[H]
-    \vspace{-0.5cm}
-    \centering
-    \includegraphics[width=0.4\linewidth]{img/pareto.jpg}
-    \caption{\label{fig:pareto}Pareto front and set}
-\end{figure}
-\vspace{-0.5cm}
+%\begin{figure}[H]
+%    \vspace{-0.4cm}
+%    \centering
+%    \includegraphics[width=0.4\linewidth]{img/pareto.jpg}
+%    \vspace{-0.3cm}
+%    \caption{\label{fig:pareto}Pareto front and set}
+%\end{figure}
+%\vspace{-0.45cm}
 %\end{wrapfigure}
 
 \subsection*{Multiobjective Optimization}
@@ -92,8 +94,8 @@ Tradeoff surface (Pareto front): $S$ is a set of values of pair ($f_1$, $f_2$) w
 \textbf{Pareto optimal}: A design variable $x^* \in S$ and the corresponding $f(x^*)$ are pareto optimal if there does not exist another design variable $x\in S$ such that $f_i (x) \leq f_i (x^*) \forall i = 1 ... k$ and $f_j (x) < f_j (x^*)$ for at least one objective function $f_j$.
 
 
-\subsubsection*{Solution methods}
-\textbf{Scalar methods}: 
+%\subsubsection*{Solution methods}
+\textbf{Scalar solution methods}: 
 \textit{Weighted sum of objective functions} (only for convex sets $S$): transform problem into monoobjective as $f_{eq}(x) = \sum_{i=1}^k w_i \cdot f_i(x)$ with weights $w_i \geq 0, \sum_{i=1}^k w_i = 1$. 
 \textit{Goal attainment method} 
 Minimize $\lambda$ with $f_i (x) - w_i \cdot \lambda \leq F_i$ under the constraints. 

@@ -2,47 +2,44 @@
 SUPERVISED LEARNING: Develop a predictive model based on both input and output data.
 UNSUPERVISED LEARNING: Discover an internal representation from input data only.
 
-Main challenges: underfitting and overfitting (bias/variance tradeoff).
-Overfitting happens when the model is too complex relative to the amount and noisiness of the training data. The possible solutions are: To simplify the model by selecting the one with fewer parameters (e.g., a linear model rather than a high-degree polynomial model),
+\textbf{Main challenges}: underfitting, overfitting (model is too complex relative to the amount and noisiness of the training data), and bias/variance tradeoff.
+Overfitting solutions are: simplify the model by selecting the one with fewer parameters (e.g., a linear model rather than a high-degree polynomial model),
 or to gather more training data,
 or to reduce the noise in the training data (e.g., fix data errors and remove outliers).
-Constraining a model to make it simpler and reduce the risk of overfitting is called regularization.
-
-\textbf{Regularization}
-reduces the risk of overfitting.
-Regularization forces the model to have a smaller slope, which fits a bit less the training data that the model was trained on, but actually allows it to generalize better to new examples.
+Constraining a model to make it simpler and reduce the risk of overfitting is called
+\textbf{Regularization}. 
+It forces the model to have a smaller slope, which fits a bit less the training data that the model was trained on, but actually allows it to generalize better to new examples.
 The amount of regularization to apply during learning can be controlled by a hyperparameter. 
-A hyperparameter is a parameter of a learning algorithm (not of the model).
-Tuning hyperparameters is an important part of building a Machine Learning system.
+A \textbf{hyperparameter} is a parameter of a learning algorithm (not of the model).
+%Tuning hyperparameters is an important part of building a Machine Learning system.
 
-\textbf{Testing and Validating}
-The only way to know how well a model will generalize to new cases is to actually try it out on new cases. Therefore, split your data into two sets:
-the training set and the test set. As these names imply, you train your model using the training set, and you test it using the test set.
-The error rate on new cases is called the generalization error (or out-of-sample error), and by evaluating your model on the test set, you get an estimate of this error.
+\subsection*{Testing and Validating}
+Only know how well a model generalizes to new cases when actually trying it out on new cases. Therefore, split your data into two sets:
+the training and the test set. As these names imply, you train your model using the training set, and you test it using the test set.
+The error rate on new cases is called the \textit{generalization error (or out-of-sample error)}, and by evaluating your model on the test set, you get an estimate of this error.
 This value tells you how well your model will perform on instances it has never seen before.
-If the training error is low but the generalization error is high, it means that your model is
-overfitting the training data.
-It is common to use 80\% of the data for training and hold out 20\% for testing.
+If the training error is low but the generalization error is high, it means that your model is overfitting the training data.
+Common: use 80\% of the data for training and hold out 20\% for testing.
 
-Cross-validation can be applied to get an estimate of a model’s generalization performance.
-If a model performs well on the training data but generalizes poorly according to the cross-validation metrics, then
-your model is overfitting.
-If it performs poorly on both, then it is underfitting. This is one way to tell when a model is too simple or too
-complex.
-Another way is to look at the learning curves: these are plots of the model’s performance on the training set and the validation set as a function of the training set size.
+\textbf{Cross-validation} can be applied to get an estimate of a model’s generalization performance.
+If a model performs well on the training data but generalizes poorly according to the cross-validation metrics, then your model is overfitting.
+If it performs poorly on both, then it is underfitting. 
+% This is one way to tell when a model is too simple or too complex.
+Another way to check the model is to look at the learning curves: these are plots of the model’s performance on the training set and the validation set as a function of the training set size.
 
 \textbf{Feature Scaling}
-One of the most important transformations you need to apply to your data is feature scaling. With a few exceptions, Machine Learning algorithms don’t perform well when the input numerical attributes have very different scales.
-There are two common ways to get all attributes to have the same scale: min-max (normalization, values are shifted and rescaled so that they end up ranging from 0 to 1 by subtracting the min value and dividing by the max minus the min.) scaling and standardization (First, it subtracts the mean value (so standardized values always have a zero mean), and then it divides by the standard deviation so that the resulting distribution has unit variance.
-Unlike min-max scaling, standardization does not bound values to a specific range, which may be a problem for some algorithms
+One of the most important transformations you need to apply to your data is feature scaling. With a few exceptions, ML algorithms don’t perform well on different numerical input attribute scales.
+There are two common ways to get all attributes to have the same scale: \textbf{min-max} (\textbf{normalization}, values are shifted and rescaled so that they end up ranging from 0 to 1 by subtracting the min value and dividing by the max minus the min.), 
+\textbf{scaling and standardization} (first, it subtracts the mean value (so standardized values always have a zero mean), and then it divides by the standard deviation so that the resulting distribution has unit variance.
+Unlike min-max scaling, standardization does not bound values to a specific range, which may be a problem for some algorithms.
 Standardization is much less affected by outliers.).
 
-\textbf{Linear Regression}
+\textbf{Linear Regression}:
 A linear model makes the prediction by simply computing a weighted sum of the input features, plus a constant called the bias term.
 $\hat{y}=w^T x$.
 Cost function: mean square error $MSE=\frac{1}{m} \sum_{i=1}^{m} (w^T x^i - y^i)^2$.
 
-\textbf{Ridge- and Lasso Regression}
+\textbf{Ridge- and Lasso Regression}:
 A good way to reduce overfitting is to regularize the model (i.e., to constrain it): The fewer degrees of freedom it has, the harder it will be for it to overfit the data.
 The hyperparameter $\alpha$ controls how much you want to regularize the model.
 Ridge Regression cost function: $J(w) = \frac{1}{m} \sum_{i=1}^{m} (w^T x^i - y^i)^2 + \frac{\alpha}{2} \sum_{i=1}^{m} w_i^2$.
